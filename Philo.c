@@ -13,7 +13,7 @@ typedef struct  s_philo
     long        start_time;
     long        time_to_die;
     long        time_to_eat;
-    long        nb_of_time_to_eat;
+    int         nb_of_time_to_eat;
     long        time_lived;
 }               t_philo;
 
@@ -44,12 +44,21 @@ void set_philo(t_philo *philo_data)
     get_time_struct(philo_data);
     philo_data->start_time = ftime(philo_data->tv);
 }
+
+void    print_debug(t_philo *temp)
+{
+    printf("Debug :\nTime to die : %ld\n", temp->time_to_die);
+    printf("Debug :\nTime to eat : %ld\n", temp->time_to_eat);
+    printf("Debug :\nNb of time to eat : %i\n", temp->nb_of_time_to_eat);
+}
+
 void    wait_til_you_die(t_philo *philo_data)
 {
     long now;
     long before;
 
     before = get_time();
+    printf("philo[%i] should sleep for %ld\n", philo_data->index, philo_data->time_to_die);
     while(philo_data->time_lived != philo_data->time_to_die)
     {
         usleep((philo_data->time_to_die * 1000) / 2);
@@ -68,6 +77,7 @@ void    *be_philo(void *data)
     t_philo *philo_data;
     philo_data = (t_philo *)data;
     set_philo(philo_data);
+    print_debug(philo_data);
     printf("\nje pense a l'index %i\ndonc je suis %ld\n", philo_data->index, philo_data->tid);
     printf("je suis née a : %ld\n", philo_data->start_time);
     wait_til_you_die(philo_data);
@@ -129,7 +139,7 @@ int main(int ac, char **av)
 
 
 
-
+/*
 
 typedef struct perfect_philo
 {
@@ -150,6 +160,7 @@ typedef struct new_perfect_struct
     long        time_lived;
 }   perf;
 
+*/
 
 /*
     comme ca au debut du programme je peux set tout la struct et malloc chaque sous struct
